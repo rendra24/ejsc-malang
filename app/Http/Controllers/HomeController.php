@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anggota;
+use App\Models\AnggotaKuisioner;
+use App\Models\AnggotaSkm;
+use App\Models\Kuisioner;
 use App\Models\Wilayah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +24,33 @@ class HomeController extends Controller
                        ->whereRaw("CHAR_LENGTH(kode)={$m}")
                     ->orderBy('nama', 'ASC')->get();
         return view('anggota.form', compact('wilayah'));
+    }
+
+    public function skm()
+    {
+        $pendidikan_terkahir = [
+            'SD KE BAWAH',
+            'SMP / MTS',
+            'SMA / SMK / MA',
+            'D4 / S1',
+            'S2',
+            'S3',
+        ];
+        $pekerjaan = [
+            'PELAJAR / MAHASISWA',
+            'SWASTA',
+            'PNS',
+            'LAINNYA',
+        ];
+        $tujuan = [
+            'PELATIHAN',
+            'CO-WORKING SPACE',
+            'SERVICE POINT',
+            'LAINNYA',
+        ];
+
+        $kuisioner = Kuisioner::all();
+        return view('kuisioner', compact('pendidikan_terkahir','pekerjaan', 'tujuan', 'kuisioner'));
     }
 
     public function store(Request $request)
@@ -62,5 +92,55 @@ class HomeController extends Controller
         $client->query($query)->read();
 
         return redirect('/')->with('success', 'Pendaftaran suceessfull!');
+    }
+
+    public function store_skm(Request $request)
+    {
+        $validate_array = [
+            'pekerjaan' => 'required',
+            'nama' => 'required',
+            'umur' => 'required',
+            'jenis_kelamin' => 'required',
+            'nama_instansi' => 'required',
+            'pendidikan_terkahir' => 'required',
+            'tujuan' => 'required',
+            'jenis_kelamin' => 'required'
+        ];
+        
+        for($x=1; $x<=10; $x++) {
+            $validate_array['soal_'. $x] = 'required';
+        }
+
+        $request->validate($validate_array);
+
+        $dataIns = new AnggotaSkm;
+        $dataIns->anggota_id = 1;
+        $dataIns->nama =  $request['nama'];
+        $dataIns->umur = $request['umur'];
+        $dataIns->jenis_kelamin = $request['jenis_kelamin'];
+        $dataIns->nama_instansi = $request['nama_instansi'];
+        $dataIns->pendidikan_terkahir = $request['pendidikan_terkahir'];
+        $dataIns->pekerjaan = $request['pekerjaan'];
+        $dataIns->tujuan = $request['tujuan'];
+        $dataIns->jenis_kelamin = $request['jenis_kelamin'];
+        $dataIns->masukkan_pelatihan = $request->masukkan_pelatihan;
+        $dataIns->kritik_saran = $request->kritik_saran;
+
+        $dataIns->save();
+
+        $id_anggota_skm = $dataIns->id;
+
+        for($x=1; $x<=10; $x++) {
+            $dataKuisioner['id_anggota_skm'] = $id_anggota_skm;
+            $dataKuisioner['anggota_id'] = 1;
+            $dataKuisioner['kuisioner_id'] = $x;
+            $dataKuisioner['jawaban'] = $request['soal_'. $x];
+            
+            AnggotaKuisioner::create($dataKuisioner);
+
+        }
+
+        return redirect('skm')->with('success', 'SKM berhasil disimpan');
+        
     }
 }

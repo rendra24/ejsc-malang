@@ -11,4 +11,8 @@ class Anggota extends Model
     protected $table = 'anggota';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
+
+    public function profesi(){
+        return $this->belongsTo(Profesi::class);
+    }
 }
