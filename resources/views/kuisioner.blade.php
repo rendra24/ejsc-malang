@@ -46,7 +46,7 @@
 
                         <div class="mb-3 form-group">
                             <label>Umur</label>
-                            <input type="number" class="form-control @error('umur') is-invalid @enderror" 
+                            <input type="number" min="1" class="form-control @error('umur') is-invalid @enderror" 
                             name="umur" placeholder="Umur" value="{{ old('umur') }}" >
                             @error('nama')
                             <div class="invalid-feedback">
@@ -136,10 +136,10 @@
                             <select name="tujuan" id="" class="form-control @error('tujuan') is-invalid @enderror" id="tujuan">
                                 <option value="">Pilih Pendidikan Terkahir</option>
                                 @foreach($tujuan as $row)
-                                @if(old('tujuan') == $row)
-                                <option value="{{ $row }}" selected>{{ $row }}</option>
-                            @else
-                                <option value="{{ $row }}">{{ $row }}</option>
+                                @if(old('tujuan') == $row->id)
+                                    <option value="{{ $row->id }}" selected>{{ $row->nama_tujuan }}</option>
+                                @else
+                                <option value="{{ $row->id }}">{{ $row->nama_tujuan }}</option>
                             @endif
                                 @endforeach
                             </select>

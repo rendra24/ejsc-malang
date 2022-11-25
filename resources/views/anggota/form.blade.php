@@ -11,6 +11,17 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    .select2-container--default .select2-selection--single
+    {
+    height: 38px;
+    padding: 5px 5px;
+    border: 1px solid #ced4da;
+    }
+</style>
 </head>
 
 <body style="background-color:#c3e4e9;">
@@ -128,18 +139,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="profesi" class="form-label">Profesi</label>
-                            <select name="profesi" id="" class="form-control @error('profesi') is-invalid @enderror" id="profesi">
+                            <select name="profesi_id" id="" class="form-control @error('profesi_id') is-invalid @enderror" id="profesi">
                                 <option value="">Pilih Profesi</option>
-                                <option value="1">Mahasiswa/Pelajar (Student)</option>
-                                <option value="2">Aparatur Sipil Negara (Civil Servant/Civil Service Employee)</option>
-                                <option value="3">Karyawan (Corporate Employee)</option>
-                                <option value="4">Mentor EJSC/MJC</option>
-                                <option value="5">Talenta MJC</option>
-                                <option value="6">Wirausahawan/ Wiraswasta/ Usahawan (Enterpreneur)</option>
-                                <option value="7">Umum (Citizen)</option>
-                                <option value="8">UMKM</option>
+                                @foreach($profesi as $key => $value)
+                                <option value="{{ $value->id }}">{{ $value->nama_profesi }}</option>
+                                @endforeach
                             </select>
-                            @error('profesi')
+                            @error('profesi_id')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -147,7 +153,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="domisili" class="form-label">Domisili</label>
-                            <select name="domisili" id="" class="form-control @error('domisili') is-invalid @enderror" id="domisili">
+                            <select name="domisili" id="" class="form-control select2 @error('domisili') is-invalid @enderror" id="domisili">
                                 <option value="">Pilih Domisili</option>
                                 @foreach($wilayah as $row)
                                                 @if(old('domisili') == $row->kode)
@@ -190,9 +196,18 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
 </body>
 
 </html>

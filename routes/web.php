@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfesiController;
+use App\Http\Controllers\TujuanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +34,10 @@ Route::post('/doregis', [HomeController::class, 'store'])->name('anggota.store')
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::resource('tujuan', TujuanController::class);
+    Route::resource('profesi', ProfesiController::class);
+
+
 
     Route::group(['prefix'=>'laporan'], function(){
         Route::get('penggunjung', [LaporanController::class, 'pengunjung'])->name('laporan.penggunjung');
@@ -40,4 +46,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('kritik-saran', [LaporanController::class, 'kritik_saran'])->name('laporan.kritik-saran');
     });
 
+    Route::group(['prefix'=>'export'], function(){
+        Route::get('penggunjung', [LaporanController::class, 'cetak_penggunjung'])->name('export.penggunjung');
+    });
 });

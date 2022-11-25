@@ -3,18 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktifitas;
+use App\Models\AnggotaSkm;
 use Illuminate\Http\Request;
 use App\Helpers\GlobalHelper;
-use App\Models\AnggotaSkm;
+use Illuminate\Support\Carbon;
+use App\Exports\PenggunjungExport;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\TotalAnggotaKuisioner;
 
 class LaporanController extends Controller
 {
-    public function pengunjung()
+    public function pengunjung(Request $request)
     {
-        $get_aktifitas = Aktifitas::with('anggota.profesi')->whereHas('anggota.profesi');
-        $data['aktifitas'] = $get_aktifitas->paginate(10)->withQueryString();
+        if(isset($request->tanggal)){
+            $arr = explode(" - ", $request->tanggal);
+            $tanggal_awal = $arr[0];
+            $tanggal_akhir = $arr[1];
+        }else{
+            $tanggal_awal = date('Y-m-d');
+            $tanggal_akhir = date('Y-m-d');
+        }
+        $aktifitas = Aktifitas::with('anggota.profesi')->whereHas('anggota.profesi')->whereBetween('tgl_kunjungan',[$tanggal_awal,$tanggal_akhir])->get()
+        ->map(function($detail){
+            $data['tanggal_kunjungan'] = $detail->created_at;
+            $data['nama_penggunjung'] = $detail->anggota->nama;
+            $data['profesi'] = $detail->anggota->profesi->nama_profesi;
+            $data['domisili'] = ucfirst(strtolower(GlobalHelper::get_wilayah($detail->anggota->domisili)));
+            $data['tujuan'] = $detail->tujuan;
+
+            return $data;
+        });
+        $data['aktifitas'] = $aktifitas;
         $data['helper'] = new GlobalHelper;
+        $data['tanggal_awal'] = $tanggal_awal;
+        $data['tanggal_akhir'] = $tanggal_akhir;
         
         return view('laporan.penggunjung', $data);
     }
@@ -42,5 +65,12 @@ class LaporanController extends Controller
         $data['helper'] = new GlobalHelper;
         
         return view('laporan.kritik_saran', $data);
+    }
+
+    public function cetak_penggunjung(Request $request)
+    {
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
+        return Excel::download(new PenggunjungExport($tanggal_awal, $tanggal_akhir), "penggunjung_{$tanggal_awal}.xlsx");
     }
 }

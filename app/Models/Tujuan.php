@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
 
-class Profesi extends Model
+class Tujuan extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'profesi';
+    protected $table = 'tujuan';
     protected $guarded = ['id'];
+    
 }

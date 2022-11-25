@@ -6,10 +6,12 @@ use App\Models\Anggota;
 use App\Models\AnggotaKuisioner;
 use App\Models\AnggotaSkm;
 use App\Models\Kuisioner;
+use App\Models\Profesi;
+use App\Models\Tujuan;
 use App\Models\Wilayah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Validation\Rules\Password;
 use \RouterOS\Client;
 use \RouterOS\Query;
 
@@ -23,13 +25,13 @@ class HomeController extends Controller
         $wilayah = Wilayah::whereRaw("LEFT(kode, {$n})='{$id}'")
                        ->whereRaw("CHAR_LENGTH(kode)={$m}")
                     ->orderBy('nama', 'ASC')->get();
-        return view('anggota.form', compact('wilayah'));
+        $profesi = Profesi::all();
+        return view('anggota.form', compact('wilayah', 'profesi'));
     }
 
     public function skm()
     {
         $pendidikan_terkahir = [
-            'SD KE BAWAH',
             'SMP / MTS',
             'SMA / SMK / MA',
             'D4 / S1',
@@ -42,13 +44,8 @@ class HomeController extends Controller
             'PNS',
             'LAINNYA',
         ];
-        $tujuan = [
-            'PELATIHAN',
-            'CO-WORKING SPACE',
-            'SERVICE POINT',
-            'LAINNYA',
-        ];
 
+        $tujuan = Tujuan::all();
         $kuisioner = Kuisioner::all();
         return view('kuisioner', compact('pendidikan_terkahir','pekerjaan', 'tujuan', 'kuisioner'));
     }
@@ -60,12 +57,12 @@ class HomeController extends Controller
             'nama' => 'required|max:255',
             'username' => ['required','min:6', 'max:255', 'unique:anggota'],
             'email' => 'required|email:dns|unique:anggota',
-            'password' => 'required|confirmed|min:6|max:255',
+            'password' => ['required','confirmed', Password::min(8)->mixedCase()],
             'usia' => 'required',
             'jenis_kelamin' => 'required',
             'telp' => 'required|numeric',
             'sosial_media'=> 'required',
-            'profesi' => 'required',
+            'profesi_id' => 'required',
             'domisili' => 'required',
             'mengetahui_ejsc' => 'required',
         ]);
@@ -74,22 +71,22 @@ class HomeController extends Controller
 
         Anggota::create($validatedData);
 
-        $client = new Client([
-            'host' => '192.168.40.1',
-            'user' => 'admin',
-            'pass' => 'k0s0ng',
-            'port' => 8728,
-        ]);
+        // $client = new Client([
+        //     'host' => '192.168.40.1',
+        //     'user' => 'admin',
+        //     'pass' => 'k0s0ng',
+        //     'port' => 8728,
+        // ]);
         
-        $query =
-            (new Query('/ip/hotspot/user/add'))
-                ->equal('server', 'server-hotspot')
-                ->equal('name', $request->username)
-                ->equal('password', $passwithoutHash)
-                ->equal('profile', 'user')
-                ->equal('comment', 'Anggota');
+        // $query =
+        //     (new Query('/ip/hotspot/user/add'))
+        //         ->equal('server', 'server-hotspot')
+        //         ->equal('name', $request->username)
+        //         ->equal('password', $passwithoutHash)
+        //         ->equal('profile', 'user')
+        //         ->equal('comment', 'Anggota');
         
-        $client->query($query)->read();
+        // $client->query($query)->read();
 
         return redirect('/')->with('success', 'Pendaftaran suceessfull!');
     }
