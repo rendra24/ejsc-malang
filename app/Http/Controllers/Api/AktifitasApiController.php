@@ -35,7 +35,8 @@ class AktifitasApiController extends Controller
         if($get_anggota){
             if (Hash::check($request->password, $get_anggota->password)) {
                 $tanggal = date('Y-m-d');
-                $get_aktifitas = Aktifitas::where('anggota_id', $request->id)->where('tgl_kunjungan', $tanggal)->first();
+                $get_aktifitas = Aktifitas::where('anggota_id', $get_anggota->id)->where('tgl_kunjungan', $tanggal)->first();
+                
                 if(empty($get_aktifitas)){
                     $data['anggota_id'] = $get_anggota->id;
                     $data['tujuan_id'] = $request->tujuan_id;
@@ -46,6 +47,8 @@ class AktifitasApiController extends Controller
             }else{
                 return response()->json(['status' => false, 'message' => 'Username atau Password salah']);
             }
+        }else{
+            return response()->json(['status' => false, 'message' => 'Username atau Password salah']);
         }
     }
 
