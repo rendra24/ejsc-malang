@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AktifitasResource;
 use App\Models\Aktifitas;
+use App\Models\Anggota;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AktifitasApiController extends Controller
 {
@@ -28,7 +30,23 @@ class AktifitasApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $get_anggota = Anggota::where('username', $request->username)->first();
+
+        if($get_anggota){
+            if (Hash::check($request->password, $get_anggota->password)) {
+                $tanggal = date('Y-m-d');
+                $get_aktifitas = Aktifitas::where('anggota_id', $request->id)->where('tgl_kunjungan', $tanggal)->first();
+                if(empty($get_aktifitas)){
+                    $data['anggota_id'] = $get_anggota->id;
+                    $data['tujuan_id'] = $request->tujuan_id;
+                    $data['tgl_kunjungan'] = $tanggal;
+                    Aktifitas::create($data);
+                }
+                return response()->json(['status' => true, 'message' => 'Success Logged']);
+            }else{
+                return response()->json(['status' => false, 'message' => 'Username atau Password salah']);
+            }
+        }
     }
 
     /**
