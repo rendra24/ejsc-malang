@@ -46,9 +46,13 @@
 
                         <div class="mb-3 form-group">
                             <label>Umur</label>
-                            <input type="number" min="1" class="form-control @error('umur') is-invalid @enderror" 
-                            name="umur" placeholder="Umur" value="{{ old('umur') }}" >
-                            @error('nama')
+                            <select name="umur" id="" class="form-control @error('umur') is-invalid @enderror" id="umur">
+                                <option value="">Pilih Umur</option>
+                                @foreach($usia as $row)
+                                <option value="{{ $row['value'] }}">{{ $row['text'] }}</option>
+                                @endforeach
+                            </select>
+                            @error('umur')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>

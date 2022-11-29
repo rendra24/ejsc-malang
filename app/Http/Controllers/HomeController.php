@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anggota;
-use App\Models\AnggotaKuisioner;
-use App\Models\AnggotaSkm;
-use App\Models\Kuisioner;
-use App\Models\Profesi;
+use Exception;
+use \RouterOS\Query;
+use \RouterOS\Client;
 use App\Models\Tujuan;
+use App\Models\Anggota;
+use App\Models\Profesi;
 use App\Models\Wilayah;
+use App\Models\Kuisioner;
+use App\Models\AnggotaSkm;
 use Illuminate\Http\Request;
+use App\Models\AnggotaKuisioner;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use \RouterOS\Client;
-use \RouterOS\Query;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,34 @@ class HomeController extends Controller
                        ->whereRaw("CHAR_LENGTH(kode)={$m}")
                     ->orderBy('nama', 'ASC')->get();
         $profesi = Profesi::all();
-        return view('anggota.form', compact('wilayah', 'profesi'));
+
+        $usia = [
+            [
+                'value' => 'kurang_15',
+                'text' => '< 15 Tahun'
+            ],
+            [
+                'value' => '15_24',
+                'text' => '15 - 24 Tahun',
+            ],
+            [
+                'value' => '25_34',
+                'text' => '25 - 34 Tahun',
+            ],
+            [
+                'value' => '35_44',
+                'text' => '35 - 44 Tahun',
+            ],
+            [
+                'value' => '44_54',
+                'text' => '44 - 54 Tahun',
+            ],
+            [
+                'value' => 'lebih_55',
+                'text' => '> 55 Tahun',
+            ]
+        ];
+        return view('anggota.form', compact('wilayah', 'profesi','usia'));
     }
 
     public function skm()
@@ -45,9 +73,36 @@ class HomeController extends Controller
             'LAINNYA',
         ];
 
+        $usia = [
+            [
+                'value' => 'kurang_15',
+                'text' => '< 15 Tahun'
+            ],
+            [
+                'value' => '15_24',
+                'text' => '15 - 24 Tahun',
+            ],
+            [
+                'value' => '25_34',
+                'text' => '25 - 34 Tahun',
+            ],
+            [
+                'value' => '35_44',
+                'text' => '35 - 44 Tahun',
+            ],
+            [
+                'value' => '44_54',
+                'text' => '44 - 54 Tahun',
+            ],
+            [
+                'value' => 'lebih_55',
+                'text' => '> 55 Tahun',
+            ]
+        ];
+
         $tujuan = Tujuan::all();
         $kuisioner = Kuisioner::all();
-        return view('kuisioner', compact('pendidikan_terkahir','pekerjaan', 'tujuan', 'kuisioner'));
+        return view('kuisioner', compact('pendidikan_terkahir','pekerjaan', 'tujuan', 'kuisioner', 'usia'));
     }
 
     public function store(Request $request)
@@ -71,22 +126,29 @@ class HomeController extends Controller
 
         Anggota::create($validatedData);
 
-        // $client = new Client([
-        //     'host' => '192.168.40.1',
-        //     'user' => 'admin',
-        //     'pass' => 'k0s0ng',
-        //     'port' => 8728,
-        // ]);
+        try {
+
+            $client = new Client([
+                'host' => '192.168.40.1',
+                'user' => 'admin',
+                'pass' => 'k0s0ng',
+                'port' => 8728,
+            ]);
         
-        // $query =
-        //     (new Query('/ip/hotspot/user/add'))
-        //         ->equal('server', 'server-hotspot')
-        //         ->equal('name', $request->username)
-        //         ->equal('password', $passwithoutHash)
-        //         ->equal('profile', 'user')
-        //         ->equal('comment', 'Anggota');
-        
-        // $client->query($query)->read();
+            $query =
+                (new Query('/ip/hotspot/user/add'))
+                    ->equal('server', 'server-hotspot')
+                    ->equal('name', $request->username)
+                    ->equal('password', $passwithoutHash)
+                    ->equal('profile', 'user')
+                    ->equal('comment', 'Anggota');
+            
+            $client->query($query)->read();
+
+        } catch (Exception $exception) {
+            
+        }
+
 
         return redirect('/')->with('success', 'Pendaftaran suceessfull!');
     }

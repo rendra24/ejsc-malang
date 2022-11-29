@@ -98,13 +98,9 @@
                             <label for="usia" class="form-label">Usia (Age)</label>
                             <select name="usia" id="" class="form-control @error('usia') is-invalid @enderror" id="usia">
                                 <option value="">Pilih Usia</option>
-                                <option value="kurang_15">
-                                    < 15 Tahun</option>
-                                <option value="15_24">15 - 24 Tahun</option>
-                                <option value="25_34">25 - 34 Tahun</option>
-                                <option value="35_44">35 - 44 Tahun</option>
-                                <option value="44_54">44 - 54 Tahun</option>
-                                <option value="lebih_55">> 55 Tahun</option>
+                                @foreach($usia as $row)
+                                <option value="{{ $row['value'] }}">{{ $row['text'] }}</option>
+                                @endforeach
                             </select>
                             @error('usia')
                             <div class="invalid-feedback">
