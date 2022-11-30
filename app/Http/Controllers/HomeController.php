@@ -127,7 +127,7 @@ class HomeController extends Controller
 
         Anggota::create($validatedData);
 
-        // return $this->send_request_to_online($validatedData);die;
+        $this->send_request_to_online($validatedData);
 
         try {
 
@@ -158,14 +158,10 @@ class HomeController extends Controller
     
     public function send_request_to_online($dataReq){
             // return $dataReq;die;
-            $apiURL = 'https://jsonplaceholder.typicode.com/posts';
+            $apiURL = 'https://ejsc.colabs.id/api/anggota';
 
             // POST Data
-            $postInput = [
-                'title' => 'Sample Post',
-                'body' => "This is my sample curl post request with data",
-                'userId' => 22
-            ];
+            $postInput = $dataReq;
       
             // Headers
             $headers = [
@@ -177,9 +173,6 @@ class HomeController extends Controller
             $statusCode = $response->status();
             $responseBody = json_decode($response->getBody(), true);
           
-            echo $statusCode;  // status code
-    
-            dd($responseBody); 
     }
     
     public function store_skm(Request $request)
