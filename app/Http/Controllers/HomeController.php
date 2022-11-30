@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Models\AnggotaKuisioner;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -107,7 +108,7 @@ class HomeController extends Controller
 
     public function store(Request $request)
     {
-        // return $request;
+        
         $validatedData =  $request->validate([
             'nama' => 'required|max:255',
             'username' => ['required','min:6', 'max:255', 'unique:anggota'],
@@ -125,6 +126,8 @@ class HomeController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         Anggota::create($validatedData);
+
+        // return $this->send_request_to_online($validatedData);die;
 
         try {
 
@@ -150,9 +153,35 @@ class HomeController extends Controller
         }
 
 
-        return redirect('/')->with('success', 'Pendaftaran suceessfull!');
+        return redirect('/')->with('success', 'Pendaftaran Berhasil!');
     }
+    
+    public function send_request_to_online($dataReq){
+            // return $dataReq;die;
+            $apiURL = 'https://jsonplaceholder.typicode.com/posts';
 
+            // POST Data
+            $postInput = [
+                'title' => 'Sample Post',
+                'body' => "This is my sample curl post request with data",
+                'userId' => 22
+            ];
+      
+            // Headers
+            $headers = [
+                //...
+            ];
+      
+            $response = Http::withHeaders($headers)->post($apiURL, $postInput);
+      
+            $statusCode = $response->status();
+            $responseBody = json_decode($response->getBody(), true);
+          
+            echo $statusCode;  // status code
+    
+            dd($responseBody); 
+    }
+    
     public function store_skm(Request $request)
     {
         $validate_array = [

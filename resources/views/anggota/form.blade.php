@@ -170,11 +170,11 @@
                                 tentang EJSC
                                 (East Java Super Corridor)</label>
                             <select name="mengetahui_ejsc" id="" class="form-control @error('mengetahui_ejsc') is-invalid @enderror" id="domisili">
-                                <option value="1">Mengetahui tentang EJSC</option>
-                                <option value="2">Sosial Media: Instagram, Twitter , Facebook dan Sejenisnya</option>
-                                <option value="3">Media Publikasi: Poster, Brosur, Pamflet, dan Sejenisnya</option>
-                                <option value="4">Rekomendasi Teman</option>
-                                <option value="5">Undangan</option>
+                                <option value="">Mengetahui tentang EJSC</option>
+                                <option value="1">Sosial Media: Instagram, Twitter , Facebook dan Sejenisnya</option>
+                                <option value="2">Media Publikasi: Poster, Brosur, Pamflet, dan Sejenisnya</option>
+                                <option value="3">Rekomendasi Teman</option>
+                                <option value="4">Undangan</option>
                             </select>
                             @error('mengetahui_ejsc')
                             <div class="invalid-feedback">

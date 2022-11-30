@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('aktifitas', App\Http\Controllers\Api\AktifitasApiController::class);
+Route::post('anggota', [App\Http\Controllers\Api\AnggotaApiController::class,'index']);
