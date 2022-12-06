@@ -14,4 +14,8 @@ class Aktifitas extends Model
     public function anggota(){
         return $this->belongsTo(Anggota::class);
     }
+
+    public function tujuan(){
+        return $this->belongsTo(Tujuan::class);
+    }
 }

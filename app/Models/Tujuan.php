@@ -11,5 +11,9 @@ class Tujuan extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'tujuan';
     protected $guarded = ['id'];
+
+    public function aktifitas(){
+        return $this->belongsTo(Aktifitas::class);
+    }
     
 }

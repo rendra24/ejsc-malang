@@ -29,8 +29,9 @@ class LaporanController extends Controller
             $data['tanggal_kunjungan'] = $detail->created_at;
             $data['nama_penggunjung'] = $detail->anggota->nama;
             $data['profesi'] = $detail->anggota->profesi->nama_profesi;
+            $data['tujuan'] = $detail->tujuan->nama_tujuan;
             $data['domisili'] = ucfirst(strtolower(GlobalHelper::get_wilayah($detail->anggota->domisili)));
-            $data['tujuan'] = $detail->tujuan;
+            
 
             return $data;
         });
