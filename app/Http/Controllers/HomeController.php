@@ -124,33 +124,41 @@ class HomeController extends Controller
         ]);
         $passwithoutHash = $validatedData['password'];
         $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['password_show'] = $validatedData['password'];
 
         Anggota::create($validatedData);
 
         $this->send_request_to_online($validatedData);
 
-        try {
+        // try {
 
-            $client = new Client([
-                'host' => '192.168.40.1',
-                'user' => 'admin',
-                'pass' => 'k0s0ng',
-                'port' => 8728,
-            ]);
+        //     $client = new Client([
+        //         'host' => '192.168.40.1',
+        //         'user' => 'admin',
+        //         'pass' => 'k0s0ng',
+        //         'port' => 8728,
+        //     ]);
         
-            $query =
-                (new Query('/ip/hotspot/user/add'))
-                    ->equal('server', 'server-hotspot')
-                    ->equal('name', $request->username)
-                    ->equal('password', $passwithoutHash)
-                    ->equal('profile', 'user')
-                    ->equal('comment', 'Anggota');
+        //     $query =
+        //         (new Query('/ip/hotspot/user/add'))
+        //             ->equal('server', 'server-hotspot')
+        //             ->equal('name', $request->username)
+        //             ->equal('password', $passwithoutHash)
+        //             ->equal('profile', 'user')
+        //             ->equal('comment', 'Anggota');
             
-            $client->query($query)->read();
+        //     $client->query($query)->read();
 
-        } catch (Exception $exception) {
+        //     $user = $client->query('/ip/hotspot/user/print', ['name', '34342'])->read(); 
+
+        //     if (isset($user[0]['.id'])) {
+        //         $userId = $user[0]['.id'];
+        //         $removeUser = $client->query('/ip/hotspot/user/remove', ['.id', $userId])->read();
+        //     }
+
+        // } catch (Exception $exception) {
             
-        }
+        // }
 
 
         return redirect('/')->with('success', 'Pendaftaran Berhasil!');
