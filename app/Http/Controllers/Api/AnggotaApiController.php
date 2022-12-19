@@ -18,6 +18,7 @@ class AnggotaApiController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => $request->password,
+            'password_show' => $request->password_show,
             'usia' => $request->usia,
             'jenis_kelamin' => $request->jenis_kelamin,
             'telp' => $request->telp,

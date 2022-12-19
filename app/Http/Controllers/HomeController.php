@@ -124,7 +124,7 @@ class HomeController extends Controller
         ]);
         $passwithoutHash = $validatedData['password'];
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData['password_show'] = $validatedData['password'];
+        $validatedData['password_show'] = $passwithoutHash;
 
         Anggota::create($validatedData);
 
