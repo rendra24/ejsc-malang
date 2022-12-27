@@ -26,6 +26,8 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('skm', [HomeController::class, 'skm']);
+Route::get('penggunjung', [HomeController::class, 'penggunjung']);
+Route::post('penggunjung', [HomeController::class, 'store_penggunjung'])->name('anggota.penggunjung');
 Route::post('store_skm', [HomeController::class, 'store_skm'])->name('anggota.store_skm');;
 
 Route::get('/anggota', [AnggotaController::class, 'index']);

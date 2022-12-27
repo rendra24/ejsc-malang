@@ -9,13 +9,14 @@ use App\Models\Tujuan;
 use App\Models\Anggota;
 use App\Models\Profesi;
 use App\Models\Wilayah;
+use App\Models\Aktifitas;
 use App\Models\Kuisioner;
 use App\Models\AnggotaSkm;
 use Illuminate\Http\Request;
 use App\Models\AnggotaKuisioner;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rules\Password;
 
 class HomeController extends Controller
 {
@@ -56,6 +57,37 @@ class HomeController extends Controller
             ]
         ];
         return view('anggota.form', compact('wilayah', 'profesi','usia'));
+    }
+
+    public function penggunjung()
+    {
+        $tujuan = Tujuan::all();
+        return view('anggota.penggunjung', compact('tujuan'));
+    }
+
+    public function store_penggunjung(Request $request)
+    {
+        $get_anggota = Anggota::where('username', $request->username)->first();
+
+        if($get_anggota){
+            if (Hash::check($request->password, $get_anggota->password)) {
+                $tanggal = date('Y-m-d');
+                $get_aktifitas = Aktifitas::where('anggota_id', $get_anggota->id)->where('tgl_kunjungan', $tanggal)->first();
+                
+                if(empty($get_aktifitas)){
+                    $data['anggota_id'] = $get_anggota->id;
+                    $data['tujuan_id'] = $request->tujuan_id;
+                    $data['tgl_kunjungan'] = $tanggal;
+                    Aktifitas::create($data);
+                }
+                return redirect('/penggunjung')->with('success', 'Pengisian daftar penggunjung berhasil!');
+                    
+            }else{
+                return redirect('/penggunjung')->with('error', 'Username atau Password salah !');
+            }
+        }else{
+            return redirect('/penggunjung')->with('error', 'Username atau Password salah !');
+        }
     }
 
     public function skm()
