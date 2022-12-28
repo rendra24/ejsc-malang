@@ -37,14 +37,17 @@ class AnggotaApiController extends Controller
             die;
         }
         
+        $passwithoutHash = $request->password;
+        $password = Hash::make($request->password);
+        $password_show = $passwithoutHash;
             
         $data = [
             'nama' => $request->nama,
             'username' => $request->username,
             'mac' => $request->mac,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'password_show' => $request->password,
+            'password' => $password,
+            'password_show' => $password_show,
             'usia' => $request->usia,
             'jenis_kelamin' => $request->jenis_kelamin,
             'telp' => $request->telp,
@@ -71,7 +74,7 @@ class AnggotaApiController extends Controller
                 (new Query('/ip/hotspot/user/add'))
                     ->equal('server', 'server-hotspot')
                     ->equal('name', $request->username)
-                    ->equal('password', $request->password)
+                    ->equal('password', $password_show)
                     ->equal('mac-address', $request->mac)
                     ->equal('profile', 'user')
                     ->equal('comment', 'Anggota');
@@ -124,8 +127,8 @@ class AnggotaApiController extends Controller
             'username' => $request->username,
             'mac' => $request->mac,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'password_show' => $request->password,
+            'password' => $request->password,
+            'password_show' => $request->password_show,
             'usia' => $request->usia,
             'jenis_kelamin' => $request->jenis_kelamin,
             'telp' => $request->telp,
