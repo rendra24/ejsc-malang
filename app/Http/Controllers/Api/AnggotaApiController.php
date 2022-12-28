@@ -78,12 +78,6 @@ class AnggotaApiController extends Controller
             
             $client->query($query)->read();
 
-            // $user = $client->query('/ip/hotspot/user/print', ['name', '34342'])->read(); 
-
-            // if (isset($user[0]['.id'])) {
-            //     $userId = $user[0]['.id'];
-            //     $removeUser = $client->query('/ip/hotspot/user/remove', ['.id', $userId])->read();
-            // }
 
         } catch (Exception $exception) {
             
@@ -123,9 +117,30 @@ class AnggotaApiController extends Controller
         $client->query($query)->read();
     }
 
+    public function anggota_online(Request $request){
+        
+        $data = [
+            'nama' => $request->nama,
+            'username' => $request->username,
+            'mac' => $request->mac,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'password_show' => $request->password,
+            'usia' => $request->usia,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'telp' => $request->telp,
+            'sosial_media'=> $request->sosial_media,
+            'profesi_id' => $request->profesi_id,
+            'domisili' => $request->domisili,
+            'mengetahui_ejsc' => $request->mengetahui_ejsc,
+        ];
+
+        Anggota::create($data);
+    }
+    
     public function send_request_to_online($dataReq){
         // return $dataReq;die;
-        $apiURL = 'https://ejsc.colabs.id/api/anggota';
+        $apiURL = 'https://ejsc.colabs.id/api/anggota_online';
 
         // POST Data
         $postInput = $dataReq;

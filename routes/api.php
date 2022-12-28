@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('aktifitas', App\Http\Controllers\Api\AktifitasApiController::class);
 Route::post('anggota', [App\Http\Controllers\Api\AnggotaApiController::class,'index']);
+Route::post('anggota_online', [App\Http\Controllers\Api\AnggotaApiController::class,'anggota_online']);
 Route::get('wilayah', [App\Http\Controllers\Api\ResourceApiController::class,'wilayah']);
 Route::get('profesi', [App\Http\Controllers\Api\ResourceApiController::class,'profesi']);
 Route::post('router', [App\Http\Controllers\Api\AnggotaApiController::class,'add_to_router']);
