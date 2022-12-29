@@ -41,6 +41,8 @@
                     <th scope="col">Usia</th>
                     <th scope="col">Profesi</th>
                     <th scope="col">Kelamin</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Password</th>
                     {{-- <th scope="col">Action</th> --}}
                   </tr>
                 </thead>
@@ -54,6 +56,8 @@
                       <td>{{ $row->usia }}</td>
                       <td>{{ $row->profesi->nama_profesi }}</td>
                       <td>{{ ($row->jenis_kelamin == 'L') ? 'Laki - Laki' : 'Perempuan' }}</td>
+                      <td>{{ $row->username }}</td>
+                      <td>{{ $row->show_password }}</td>
                       {{--<td>
                          <div class="btn-group mb-3" role="group" aria-label="Basic example">
                           <a href="{{ route('anggota.edit',$row->id) }}" class="btn btn-info btn-sm">Update</a>

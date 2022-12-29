@@ -24,7 +24,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('login')->middlewar
 Route::post('/login', [AuthController::class, 'dologin']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/', [HomeController::class, 'index']);
+
 Route::get('skm', [HomeController::class, 'skm']);
 Route::get('penggunjung', [HomeController::class, 'penggunjung']);
 Route::post('penggunjung', [HomeController::class, 'store_penggunjung'])->name('anggota.penggunjung');
@@ -34,7 +34,7 @@ Route::get('/anggota', [AnggotaController::class, 'index']);
 Route::post('/doregis', [HomeController::class, 'store'])->name('anggota.store');
 
 Route::group(['middleware' => 'auth'], function() {
-
+    Route::get('/', [DashboardController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::resource('tujuan', TujuanController::class);
     Route::resource('profesi', ProfesiController::class);
