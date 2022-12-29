@@ -57,7 +57,7 @@
                       <td>{{ $row->profesi->nama_profesi }}</td>
                       <td>{{ ($row->jenis_kelamin == 'L') ? 'Laki - Laki' : 'Perempuan' }}</td>
                       <td>{{ $row->username }}</td>
-                      <td>{{ $row->show_password }}</td>
+                      <td>{{ $row->password_show }}</td>
                       {{--<td>
                          <div class="btn-group mb-3" role="group" aria-label="Basic example">
                           <a href="{{ route('anggota.edit',$row->id) }}" class="btn btn-info btn-sm">Update</a>
