@@ -23,4 +23,5 @@ Route::post('anggota', [App\Http\Controllers\Api\AnggotaApiController::class,'in
 Route::post('anggota_online', [App\Http\Controllers\Api\AnggotaApiController::class,'anggota_online']);
 Route::get('wilayah', [App\Http\Controllers\Api\ResourceApiController::class,'wilayah']);
 Route::get('profesi', [App\Http\Controllers\Api\ResourceApiController::class,'profesi']);
+Route::get('tujuan', [App\Http\Controllers\Api\ResourceApiController::class,'tujuan']);
 Route::post('router', [App\Http\Controllers\Api\AnggotaApiController::class,'add_to_router']);

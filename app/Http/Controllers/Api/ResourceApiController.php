@@ -6,6 +6,7 @@ use App\Models\Profesi;
 use App\Models\Wilayah;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Tujuan;
 
 class ResourceApiController extends Controller
 {
@@ -30,5 +31,11 @@ class ResourceApiController extends Controller
     {
         $profesi = Profesi::all();
         return response()->json(['status' => true, 'message' => 'Berhasil mendapatkan data profesi!', 'data' => $profesi]);
+    }
+
+    public function tujuan()
+    {
+        $tujuan = Tujuan::all();
+        return response()->json(['status' => true, 'message' => 'Berhasil mendapatkan data tujuan!', 'data' => $tujuan]);
     }
 }

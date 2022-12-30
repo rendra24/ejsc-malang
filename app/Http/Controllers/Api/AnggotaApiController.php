@@ -75,7 +75,6 @@ class AnggotaApiController extends Controller
                     ->equal('server', 'server-hotspot')
                     ->equal('name', $request->username)
                     ->equal('password', $password_show)
-                    ->equal('mac-address', $request->mac)
                     ->equal('profile', 'user')
                     ->equal('comment', 'Anggota');
             
@@ -113,7 +112,7 @@ class AnggotaApiController extends Controller
                 ->equal('server', 'server-hotspot')
                 ->equal('name', $username)
                 ->equal('password', $request->password)
-                ->equal('mac-address', $request->mac)
+                // ->equal('mac-address', $request->mac)
                 ->equal('profile', 'user')
                 ->equal('comment', 'Anggota');
         
