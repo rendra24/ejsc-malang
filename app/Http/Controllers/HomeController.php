@@ -158,39 +158,51 @@ class HomeController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
         $validatedData['password_show'] = $passwithoutHash;
 
+        $password = Hash::make($validatedData['password']);
+
         Anggota::create($validatedData);
+
+        $data = [
+            'nama' => $request->nama,
+            'username' => $request->username,
+            'mac' => $request->mac,
+            'email' => $request->email,
+            'password' => $password,
+            'password_show' => $passwithoutHash,
+            'usia' => $request->usia,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'telp' => $request->telp,
+            'sosial_media'=> $request->sosial_media,
+            'profesi_id' => $request->profesi_id,
+            'domisili' => $request->domisili,
+            'mengetahui_ejsc' => $request->mengetahui_ejsc,
+        ];
 
         $this->send_request_to_online($validatedData);
 
-        // try {
+        try {
 
-        //     $client = new Client([
-        //         'host' => '192.168.40.1',
-        //         'user' => 'admin',
-        //         'pass' => 'k0s0ng',
-        //         'port' => 8728,
-        //     ]);
+            $client = new Client([
+                'host' => '192.168.40.1',
+                'user' => 'admin',
+                'pass' => 'k0s0ng',
+                'port' => 8728,
+            ]);
         
-        //     $query =
-        //         (new Query('/ip/hotspot/user/add'))
-        //             ->equal('server', 'server-hotspot')
-        //             ->equal('name', $request->username)
-        //             ->equal('password', $passwithoutHash)
-        //             ->equal('profile', 'user')
-        //             ->equal('comment', 'Anggota');
+            $query =
+                (new Query('/ip/hotspot/user/add'))
+                    ->equal('server', 'server-hotspot')
+                    ->equal('name', $request->username)
+                    ->equal('password', $passwithoutHash)
+                    ->equal('profile', 'user')
+                    ->equal('comment', 'Anggota');
             
-        //     $client->query($query)->read();
+            $client->query($query)->read();
 
-        //     $user = $client->query('/ip/hotspot/user/print', ['name', '34342'])->read(); 
 
-        //     if (isset($user[0]['.id'])) {
-        //         $userId = $user[0]['.id'];
-        //         $removeUser = $client->query('/ip/hotspot/user/remove', ['.id', $userId])->read();
-        //     }
-
-        // } catch (Exception $exception) {
+        } catch (Exception $exception) {
             
-        // }
+        }
 
 
         return redirect('/')->with('success', 'Pendaftaran Berhasil!');
@@ -198,7 +210,7 @@ class HomeController extends Controller
     
     public function send_request_to_online($dataReq){
             // return $dataReq;die;
-            $apiURL = 'https://ejsc.colabs.id/api/anggota';
+            $apiURL = 'https://ejsc.colabs.id/api/anggota_online';
 
             // POST Data
             $postInput = $dataReq;
