@@ -30,11 +30,12 @@ class PenggunjungExport implements FromView
         ->map(function($detail){
             $data['tanggal_kunjungan'] = $detail->created_at;
             $data['nama_penggunjung'] = $detail->anggota->nama;
+            $data['email'] = $detail->anggota->email;
             $data['jenis_kelamin'] = ($detail->anggota->jenis_kelamin == 'L') ? 'Laki - Laki' : 'Perempuan';
             $data['umur'] = $detail->anggota->usia;
             $data['profesi'] = $detail->anggota->profesi->nama_profesi;
             $data['domisili'] = ucfirst(strtolower(GlobalHelper::get_wilayah($detail->anggota->domisili)));
-            $data['tujuan'] = $detail->tujuan;
+            $data['tujuan'] = $detail->tujuan->nama_tujuan;
 
             return $data;
         })->toArray();

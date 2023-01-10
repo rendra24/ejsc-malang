@@ -11,6 +11,7 @@
         <th style="text-align:center;font-size: 11px;font-weight: bold;">Profesi</th>
         <th style="text-align:center;font-size: 11px;font-weight: bold;">Domisili</th>
         <th style="text-align:center;font-size: 11px;font-weight: bold;">Tujuan</th>
+        <th style="text-align:center;font-size: 11px;font-weight: bold;">Email</th>
     </tr>
     
     <tbody>
@@ -24,6 +25,7 @@
             <td>{{ $row['profesi'] }}</td>
             <td>{{ $row['domisili'] }}</td>
             <td>{{ $row['tujuan'] }}</td>
+            <td>{{ $row['email'] }}</td>
         </tr>
     @endforeach
     </tbody>
