@@ -137,7 +137,7 @@
 
                         <div class="mb-3">
                             <label for="tujuan_id" class="form-label">Tujuan / Kegiatan</label>
-                            <select name="tujuan_id" id="tujuan_id" class="form-control @error('tujuan') is-invalid @enderror" id="tujuan">
+                            <select name="tujuan_id" id="tujuan_id" class="form-control @error('tujuan_id') is-invalid @enderror">
                                 <option value="">Pilih Pendidikan Terkahir</option>
                                 @foreach($tujuan as $row)
                                 @if(old('tujuan') == $row->id)
@@ -147,7 +147,7 @@
                             @endif
                                 @endforeach
                             </select>
-                            @error('tujuan')
+                            @error('tujuan_id')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
