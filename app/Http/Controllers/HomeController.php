@@ -236,7 +236,7 @@ class HomeController extends Controller
             'jenis_kelamin' => 'required',
             'nama_instansi' => 'required',
             'pendidikan_terkahir' => 'required',
-            'tujuan' => 'required',
+            'tujuan_id' => 'required',
             'jenis_kelamin' => 'required'
         ];
         
@@ -254,7 +254,7 @@ class HomeController extends Controller
         $dataIns->nama_instansi = $request['nama_instansi'];
         $dataIns->pendidikan_terkahir = $request['pendidikan_terkahir'];
         $dataIns->pekerjaan = $request['pekerjaan'];
-        $dataIns->tujuan = $request['tujuan'];
+        $dataIns->tujuan = $request['tujuan_id'];
         $dataIns->jenis_kelamin = $request['jenis_kelamin'];
         $dataIns->masukkan_pelatihan = $request->masukkan_pelatihan;
         $dataIns->kritik_saran = $request->kritik_saran;
