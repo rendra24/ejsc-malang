@@ -136,8 +136,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="tujuan" class="form-label">Tujuan / Kegiatan</label>
-                            <select name="tujuan" id="" class="form-control @error('tujuan') is-invalid @enderror" id="tujuan">
+                            <label for="tujuan_id" class="form-label">Tujuan / Kegiatan</label>
+                            <select name="tujuan_id" id="tujuan_id" class="form-control @error('tujuan') is-invalid @enderror" id="tujuan">
                                 <option value="">Pilih Pendidikan Terkahir</option>
                                 @foreach($tujuan as $row)
                                 @if(old('tujuan') == $row->id)
