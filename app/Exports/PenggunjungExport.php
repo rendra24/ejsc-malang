@@ -30,7 +30,7 @@ class PenggunjungExport implements FromView
         ->map(function($detail){
             $data['tanggal_kunjungan'] = $detail->created_at;
             $data['nama_penggunjung'] = $detail->anggota->nama;
-            $data['menggetahui'] = GlobalHelper::get_wilayah($detail->anggota->menggetahui_ejsc);
+            $data['menggetahui'] = GlobalHelper::get_mengetahui($detail->anggota->mengetahui_ejsc);
             $data['telp'] = $detail->anggota->telp;
             $data['sosial_media'] = $detail->anggota->sosial_media;
             $data['email'] = $detail->anggota->email;
