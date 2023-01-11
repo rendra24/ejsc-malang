@@ -25,9 +25,9 @@ Route::post('/login', [AuthController::class, 'dologin']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 
-Route::get('daftar', [HomeController::class, 'index']);
+Route::get('daftar', [HomeController::class, 'index'])->name('daftar');
 Route::get('skm', [HomeController::class, 'skm']);
-Route::get('penggunjung', [HomeController::class, 'penggunjung']);
+Route::get('penggunjung', [HomeController::class, 'penggunjung'])->name('penggunjung');
 Route::post('penggunjung', [HomeController::class, 'store_penggunjung'])->name('anggota.penggunjung');
 Route::post('store_skm', [HomeController::class, 'store_skm'])->name('anggota.store_skm');;
 
@@ -48,9 +48,11 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('skm', [LaporanController::class, 'skm'])->name('laporan.skm');
         Route::get('indikator-kepuasan', [LaporanController::class, 'indikator_kepuasan'])->name('laporan.indikator-kepuasan');
         Route::get('kritik-saran', [LaporanController::class, 'kritik_saran'])->name('laporan.kritik-saran');
+        Route::delete('delete-skm/{id}', [LaporanController::class, 'destroy_skm'])->name('laporan.destroy_skm');
     });
 
     Route::group(['prefix'=>'export'], function(){
         Route::get('penggunjung', [LaporanController::class, 'cetak_penggunjung'])->name('export.penggunjung');
+        Route::get('skm', [LaporanController::class, 'cetak_skm'])->name('export.skm');
     });
 });

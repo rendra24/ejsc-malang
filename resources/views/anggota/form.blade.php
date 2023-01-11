@@ -182,8 +182,10 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-info">Kirim</button>
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary">Kirim / Daftar</button>
+                            <hr>
+                            <a href="{{ route('penggunjung') }}" type="button" class="btn btn-info text-white">Buku Penggunjung EJSC</a>
                         </div>
                         </form>
 

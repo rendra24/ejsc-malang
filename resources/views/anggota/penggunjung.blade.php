@@ -58,6 +58,8 @@
                 
                 <div class="d-grid gap-2">
                     <button class="btn btn-primary" type="submit">Kirim</button>
+                    <hr>
+                    <a href="{{ route('daftar') }}" type="button" class="btn btn-info text-white">Register Penggunjung</a>
                 </div>
 
             </form>
