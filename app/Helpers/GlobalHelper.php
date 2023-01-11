@@ -47,5 +47,16 @@
         return $data->nama;
 
     }
+
+    public static function get_mengetahui($id){
+        $data = [
+            1 => 'Sosial Media: Instagram, Twitter , Facebook dan Sejenisnya',
+            2 => 'Media Publikasi: Poster, Brosur, Pamflet, dan Sejenisnya',
+            3 => 'Rekomendasi Teman',
+            4 => 'Undangan'
+        ][$id];
+
+        return $data;
+    }
  
 }
