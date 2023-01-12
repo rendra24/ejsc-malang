@@ -82,7 +82,7 @@
                 <tbody>
                    @foreach($skm as $key => $row)
                         <tr>
-                            <td>{{ $skm->count() * ($skm->currentPage() - 1) + $loop->iteration }}</td>
+                            <td>{{ $key + 1; }}</td>
                             <td>{{ $helper::changeDateTimeFormat($row->created_at, 'd M Y H:i') }}</td>
                             <td>{{ $row->nama }}</td>
                             <td>{{ $row->jenis_kelamin }}</td>

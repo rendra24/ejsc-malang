@@ -63,7 +63,7 @@ class LaporanController extends Controller
             $tanggal_akhir = '';
         }
 
-        $data['skm'] = $get_skm->paginate(10)->withQueryString();
+        $data['skm'] = $get_skm->get();
         $data['helper'] = new GlobalHelper;
         $data['tanggal_awal'] = $tanggal_awal;
         $data['tanggal_akhir'] = $tanggal_akhir;
