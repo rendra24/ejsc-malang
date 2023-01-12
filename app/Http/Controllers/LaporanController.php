@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportSkm;
 use App\Models\Aktifitas;
 use App\Models\AnggotaSkm;
 use Illuminate\Http\Request;
 use App\Helpers\GlobalHelper;
 use Illuminate\Support\Carbon;
+use App\Models\AnggotaKuisioner;
 use App\Exports\PenggunjungExport;
+use App\Models\Kuisioner;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\TotalAnggotaKuisioner;
@@ -43,13 +46,37 @@ class LaporanController extends Controller
         return view('laporan.penggunjung', $data);
     }
 
-    public function skm()
+    public function skm(Request $request)
     {
-        $get_skm = AnggotaSkm::latest();
+       
+
+        $get_skm = AnggotaSkm::with('tujuan')->whereHas('tujuan');
+
+        if(isset($request->tanggal)){
+            $arr = explode(" - ", $request->tanggal);
+            $tanggal_awal = $arr[0];
+            $tanggal_akhir = $arr[1];
+
+            $get_skm->whereBetween('created_at',[$tanggal_awal . ' 00:00:00',$tanggal_akhir . ' 23:59:59']);
+        }else{
+            $tanggal_awal = '';
+            $tanggal_akhir = '';
+        }
+
         $data['skm'] = $get_skm->paginate(10)->withQueryString();
         $data['helper'] = new GlobalHelper;
+        $data['tanggal_awal'] = $tanggal_awal;
+        $data['tanggal_akhir'] = $tanggal_akhir;
         
         return view('laporan.skm', $data);
+    }
+
+    public function destroy_skm($id)
+    {
+        return $id;
+        AnggotaSkm::where('id', $id)->delete();
+        AnggotaKuisioner::where('id_anggota_skm',$id)->delete();
+        return redirect('anggota')->with('success', 'Anggota berhasil dihapus');
     }
 
     public function indikator_kepuasan()
@@ -72,6 +99,15 @@ class LaporanController extends Controller
     {
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
-        return Excel::download(new PenggunjungExport($tanggal_awal, $tanggal_akhir), "penggunjung_{$tanggal_awal}.xlsx");
+        return Excel::download(new PenggunjungExport($tanggal_awal, $tanggal_akhir), "pengunjung_{$tanggal_awal}.xlsx");
+    }
+
+    public function cetak_skm(Request $request)
+    {
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
+
+        return Excel::download(new ExportSkm($tanggal_awal, $tanggal_akhir), "skm_{$tanggal_awal}.xlsx");
+
     }
 }

@@ -10,4 +10,9 @@ class AnggotaKuisioner extends Model
     use HasFactory;
     protected $table = 'anggota_kuisioner';
     protected $guarded = ['id'];
+
+    public function kuisioner()
+    {
+        return $this->belongsTo(Kuisioner::class);
+    }
 }

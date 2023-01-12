@@ -206,8 +206,7 @@
                         <div class="mb-3 form-group">
                             <label>PELATIHAN APA YANG ANDA HARAPKAN ADA DI EJSC MALANG</label>
                             <textarea class="form-control @error('masukkan_pelatihan') is-invalid @enderror" 
-                            name="masukkan_pelatihan" >{{ old('masukkan_pelatihan') }}
-                            </textarea>
+                            name="masukkan_pelatihan" >{{ old('masukkan_pelatihan') }}</textarea>
                             @error('masukkan_pelatihan')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -218,8 +217,7 @@
                         <div class="mb-3 form-group">
                             <label>KRITIK DAN SARAN UNTUK PENINGKATAN LAYANAN DI EJSC MALANG</label>
                             <textarea class="form-control @error('kritik_saran') is-invalid @enderror" 
-                            name="kritik_saran" >{{ old('kritik_saran') }}
-                            </textarea>
+                            name="kritik_saran" >{{ old('kritik_saran') }}</textarea>
                             @error('kritik_saran')
                             <div class="invalid-feedback">
                                 {{ $message }}

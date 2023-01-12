@@ -264,7 +264,7 @@ class HomeController extends Controller
         $id_anggota_skm = $dataIns->id;
 
         for($x=1; $x<=10; $x++) {
-            $dataKuisioner['id_anggota_skm'] = $id_anggota_skm;
+            $dataKuisioner['anggota_skm_id'] = $id_anggota_skm;
             $dataKuisioner['anggota_id'] = 1;
             $dataKuisioner['kuisioner_id'] = $x;
             $dataKuisioner['jawaban'] = $request['soal_'. $x];

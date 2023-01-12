@@ -32,6 +32,40 @@
               <h4>Survei Kepuasan Penggunjung</h4>
             </div>
             <div class="card-body">
+
+              <form action="{{ route('laporan.skm') }}" method="GET">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Cari SKM Per Tanggal</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <i class="fas fa-calendar"></i>
+                          </div>
+                        </div>
+                        <input type="text" name="tanggal" class="form-control daterange-cus">
+                        <div class="input-group-append">
+                          <button class="btn btn-primary" type="submit">Cari</button>
+                        </div>
+                        <div class="input-group-append">
+                          <button class="btn btn-danger" onclick="window.location = '{{ route('laporan.skm')}}'" type="button">Reset</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 text-right"><br>
+                    @if(isset($tanggal_awal))
+                      <a href="{{ route('export.skm', ['tanggal_awal' => $tanggal_awal, 'tanggal_akhir' => $tanggal_akhir]); }}" class="btn btn-success mt-3">
+                        <i class="fa-solid fa-file-excel"></i> Export Excel
+                      </a>
+                    
+                    @endif
+                  </div>
+                </div>
+                </form>
+
+
               <table class="table">
                 <thead>
                   <tr>
@@ -42,6 +76,7 @@
                     <th scope="col">Pendidikan</th>
                     <th scope="col">Sekolah / Universitas</th>
                     <th scope="col">Tujuan / Kegiatan</th>
+                    {{-- <th scope="col">Action</th> --}}
                   </tr>
                 </thead>
                 <tbody>
@@ -53,7 +88,16 @@
                             <td>{{ $row->jenis_kelamin }}</td>
                             <td>{{ $row->pendidikan_terkahir }}</td>
                             <td>{{ $row->nama_instansi }}</td>
-                            <td>{{ $row->tujuan }}</td>
+                            <td>{{ $row->tujuan->nama_tujuan }}</td>
+                            {{-- <td>
+                         <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                          <form action="{{ route('laporan.destroy_skm', $row->id) }}" method="post" class="d-inline">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                          </form>
+                        </div>                     
+                      </td> --}}
                         </tr>
                    @endforeach
                 </tbody>
@@ -68,4 +112,14 @@
       </div>
     </div>
   </section>
+
+  @push('custom-scripts')
+  <script>
+    $('.daterange-cus').daterangepicker({
+      locale: {format: 'YYYY-MM-DD'},
+      drops: 'down',
+      opens: 'right'
+    });
+  </script>
+@endpush
 @endsection
