@@ -76,7 +76,7 @@
                     <th scope="col">Pendidikan</th>
                     <th scope="col">Sekolah / Universitas</th>
                     <th scope="col">Tujuan / Kegiatan</th>
-                    {{-- <th scope="col">Action</th> --}}
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -89,15 +89,15 @@
                             <td>{{ $row['pendidikan_terkahir'] }}</td>
                             <td>{{ $row['nama_instansi'] }}</td>
                             <td>{{ $row['tujuan']['nama_tujuan'] }}</td>
-                            {{-- <td>
+                            <td>
                          <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                          <form action="{{ route('laporan.destroy_skm', $row->id) }}" method="post" class="d-inline">
+                          <form action="{{ route('laporan.destroy_skm', $row['id']) }}" method="post" class="d-inline">
                             @method('delete')
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                           </form>
                         </div>                     
-                      </td> --}}
+                      </td>
                         </tr>
                    @endforeach
                 </tbody>

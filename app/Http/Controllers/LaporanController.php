@@ -76,10 +76,38 @@ class LaporanController extends Controller
 
     public function destroy_skm($id)
     {
-        return $id;
+        $get_data_kuisioner = AnggotaKuisioner::where('anggota_skm_id',$id);
+
+        //kurangi total jumlah jawaban kuisioner
+        foreach($get_data_kuisioner->get() as $row)
+        {
+            $kuisioner_id = $row['kuisioner_id'];
+            $jawaban = $row['jawaban'];
+
+            $get_first_total = TotalAnggotaKuisioner::where('kuisioner_id', $kuisioner_id)->first();
+
+            
+
+            if($jawaban == 'jawaban_1'){
+                $dataTotal['total_jawaban_1'] = $get_first_total->total_jawaban1 - 1;
+            }else if($jawaban == 'jawaban_2'){
+                $dataTotal['total_jawaban_2'] = $get_first_total->total_jawaban_2 - 1;
+            }else if($jawaban == 'jawaban_3'){
+                $dataTotal['total_jawaban_3'] = $get_first_total->total_jawaban_3 - 1;
+            }else if($jawaban == 'jawaban_4'){
+                $dataTotal['total_jawaban_4'] = $get_first_total->total_jawaban_4 - 1;
+            }
+
+            TotalAnggotaKuisioner::where('kuisioner_id', $kuisioner_id)->update($dataTotal);
+        }
+
+
+        //delete anggota_skm & anggota kuisioner
+        $get_data_kuisioner->delete();
         AnggotaSkm::where('id', $id)->delete();
-        AnggotaKuisioner::where('id_anggota_skm',$id)->delete();
-        return redirect('anggota')->with('success', 'Anggota berhasil dihapus');
+
+
+        return redirect('laporan/skm')->with('success', 'Anggota berhasil dihapus');
     }
 
     public function indikator_kepuasan()

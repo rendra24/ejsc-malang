@@ -160,7 +160,7 @@
                             <label class="mb-3">{{ $row->soal }}</label>
                             <div class="form-check">
                             <label>
-                                <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="{{ $row->jawaban_1 }}" id="jawaban_1{{ $loop->iteration }}">
+                                <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="jawaban_1" id="jawaban_1{{ $loop->iteration }}">
                                 <label class="form-check-label" for="jawaban_1{{ $loop->iteration }}">
                                     {{ $row->jawaban_1 }}
                                   </label>
@@ -168,7 +168,7 @@
                             </div>
                             <div class="form-check">
                                 <label>
-                                    <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="{{ $row->jawaban_2 }}" id="jawaban_2{{ $loop->iteration }}">
+                                    <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="jawaban_2" id="jawaban_2{{ $loop->iteration }}">
                                     <label class="form-check-label" for="jawaban_2{{ $loop->iteration }}">
                                         {{ $row->jawaban_2 }}
                                       </label>
@@ -177,7 +177,7 @@
 
                             <div class="form-check">
                                 <label>
-                                    <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="{{ $row->jawaban_3 }}" id="jawaban_3{{ $loop->iteration }}">
+                                    <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="jawaban_3" id="jawaban_3{{ $loop->iteration }}">
                                     <label class="form-check-label" for="jawaban_3{{ $loop->iteration }}">
                                         {{ $row->jawaban_3 }}
                                       </label>
@@ -186,7 +186,7 @@
 
                             <div class="form-check">
                                 <label>
-                                    <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="{{ $row->jawaban_4 }}" id="jawaban_4{{ $loop->iteration }}" {{ (old('soal_'.$loop->iteration) == $row->jawaban_4) ? 'checked' : '' }}>
+                                    <input type="radio" class="form-check-input" name="soal_{{$loop->iteration}}" value="jawaban_4" id="jawaban_4{{ $loop->iteration }}" {{ (old('soal_'.$loop->iteration) == $row->jawaban_4) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="jawaban_4{{ $loop->iteration }}">
                                         {{ $row->jawaban_4 }}
                                       </label>

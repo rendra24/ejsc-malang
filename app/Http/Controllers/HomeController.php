@@ -14,6 +14,7 @@ use App\Models\Kuisioner;
 use App\Models\AnggotaSkm;
 use Illuminate\Http\Request;
 use App\Models\AnggotaKuisioner;
+use App\Models\TotalAnggotaKuisioner;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Password;
@@ -264,12 +265,38 @@ class HomeController extends Controller
         $id_anggota_skm = $dataIns->id;
 
         for($x=1; $x<=10; $x++) {
+            $jawaban = $request['soal_'. $x];
+            $kuis = Kuisioner::where('id', $x)->first();
+
+            $jawaban_value = [
+                'jawaban_1' => $kuis->jawaban_1,
+                'jawaban_2' => $kuis->jawaban_2,
+                'jawaban_3' => $kuis->jawaban_3,
+                'jawaban_4' => $kuis->jawaban_4,
+            ][$jawaban];
+
             $dataKuisioner['anggota_skm_id'] = $id_anggota_skm;
             $dataKuisioner['anggota_id'] = 1;
             $dataKuisioner['kuisioner_id'] = $x;
-            $dataKuisioner['jawaban'] = $request['soal_'. $x];
+            $dataKuisioner['jawaban'] = $jawaban;
+            $dataKuisioner['jawaban_value'] = $jawaban_value;
             
             AnggotaKuisioner::create($dataKuisioner);
+
+            $get_first_total = TotalAnggotaKuisioner::where('kuisioner_id', $x)->first();
+
+            if($jawaban == 'jawaban_1'){
+                $dataTotal['total_jawaban_1'] = $get_first_total->total_jawaban1 + 1;
+            }else if($jawaban == 'jawaban_2'){
+                $dataTotal['total_jawaban_2'] = $get_first_total->total_jawaban_2 + 1;
+            }else if($jawaban == 'jawaban_3'){
+                $dataTotal['total_jawaban_3'] = $get_first_total->total_jawaban_3 + 1;
+            }else if($jawaban == 'jawaban_4'){
+                $dataTotal['total_jawaban_4'] = $get_first_total->total_jawaban_4 + 1;
+            }
+
+            TotalAnggotaKuisioner::where('kuisioner_id', $x)->update($dataTotal);
+
 
         }
 

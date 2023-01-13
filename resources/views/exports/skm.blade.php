@@ -32,7 +32,7 @@
             <td>{{ $row['pendidikan_terkahir'] }}</td>
             <td>{{ $row['pekerjaan'] }}</td>
             @foreach($row['anggota_skm'] as $value)
-                <td>{{ $value->jawaban }}</td>
+                <td>{{ $value->jawaban_value }}</td>
             @endforeach
             <td>{{ $row['masukkan_pelatihan'] }}</td>
             <td>{{ $row['kritik_saran'] }}</td>
