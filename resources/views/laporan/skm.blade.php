@@ -83,12 +83,12 @@
                    @foreach($skm as $key => $row)
                         <tr>
                             <td>{{ $key + 1; }}</td>
-                            <td>{{ $helper::changeDateTimeFormat($row->created_at, 'd M Y H:i') }}</td>
-                            <td>{{ $row->nama }}</td>
-                            <td>{{ $row->jenis_kelamin }}</td>
-                            <td>{{ $row->pendidikan_terkahir }}</td>
-                            <td>{{ $row->nama_instansi }}</td>
-                            <td>{{ $row->tujuan->nama_tujuan }}</td>
+                            <td>{{ date('d-m-Y', strtotime($row['created_at'])); }}</td>
+                            <td>{{ $row['nama'] }}</td>
+                            <td>{{ $row['jenis_kelamin'] }}</td>
+                            <td>{{ $row['pendidikan_terkahir'] }}</td>
+                            <td>{{ $row['nama_instansi'] }}</td>
+                            <td>{{ $row['tujuan']['nama_tujuan'] }}</td>
                             {{-- <td>
                          <div class="btn-group mb-3" role="group" aria-label="Basic example">
                           <form action="{{ route('laporan.destroy_skm', $row->id) }}" method="post" class="d-inline">
