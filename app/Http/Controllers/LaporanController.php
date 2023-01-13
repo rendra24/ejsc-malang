@@ -62,6 +62,7 @@ class LaporanController extends Controller
             $tanggal_awal = '';
             $tanggal_akhir = '';
         }
+        ddd($get_skm->get()->toArray());
 
         $data['skm'] = $get_skm->get();
         $data['helper'] = new GlobalHelper;
