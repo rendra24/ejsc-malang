@@ -25,3 +25,4 @@ Route::get('wilayah', [App\Http\Controllers\Api\ResourceApiController::class,'wi
 Route::get('profesi', [App\Http\Controllers\Api\ResourceApiController::class,'profesi']);
 Route::get('tujuan', [App\Http\Controllers\Api\ResourceApiController::class,'tujuan']);
 Route::post('router', [App\Http\Controllers\Api\AnggotaApiController::class,'add_to_router']);
+Route::get('skm', [App\Http\Controllers\Api\SkmApiController::class,'index']);

@@ -10,4 +10,5 @@ class Kuisioner extends Model
     use HasFactory;
     protected $table = 'kuisioner';
     protected $guarded = ['id'];
+    public $timestamps = false;
 }

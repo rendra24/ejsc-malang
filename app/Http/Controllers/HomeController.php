@@ -63,15 +63,74 @@ class HomeController extends Controller
     public function penggunjung()
     {
         $tujuan = Tujuan::all();
-        return view('anggota.penggunjung', compact('tujuan'));
+        $kuisioner = Kuisioner::all();
+        return view('anggota.penggunjung', compact('tujuan','kuisioner'));
     }
 
     public function store_penggunjung(Request $request)
     {
+        // return $request;die;
         $get_anggota = Anggota::where('username', $request->username)->first();
 
         if($get_anggota){
             if (Hash::check($request->password, $get_anggota->password)) {
+                $validate_array = [];
+
+                $dataSkm = new AnggotaSkm;
+                
+                $dataSkm->anggota_id = $get_anggota['id'];
+                $dataSkm->nama = $get_anggota['nama'];
+                $dataSkm->umur = $get_anggota['usia'];
+                $dataSkm->jenis_kelamin = $get_anggota['jenis_kelamin'];
+                // $dataSkm['nama_instansi'] = $get_anggota['jenis_kelamin'];
+                // $dataSkm['pendidikan_terakhir'] = $get_anggota['jenis_kelamin'];
+                // $dataSkm['pekerjaan'] = $get_anggota['jenis_kelamin'];
+                $dataSkm->tujuan_id = $request->tujuan_id;;
+                $dataSkm->save();
+                $id_anggota_skm = $dataSkm->id;
+                
+                for($x=1; $x<=10; $x++) {
+                    $validate_array['soal_'. $x] = 'required';
+                }
+
+                for($x=1; $x<=10; $x++) {
+                    $jawaban = $request['soal_'. $x];
+                    echo $jawaban;
+                    $kuis = Kuisioner::where('id', $x)->first();
+        
+                    $jawaban_value = [
+                        'jawaban_1' => $kuis->jawaban_1,
+                        'jawaban_2' => $kuis->jawaban_2,
+                        'jawaban_3' => $kuis->jawaban_3,
+                        'jawaban_4' => $kuis->jawaban_4,
+                    ][$jawaban];
+        
+                    $dataKuisioner['anggota_skm_id'] = $id_anggota_skm;
+                    $dataKuisioner['anggota_id'] = $get_anggota['id'];;
+                    $dataKuisioner['kuisioner_id'] = $x;
+                    $dataKuisioner['jawaban'] = $jawaban;
+                    $dataKuisioner['jawaban_value'] = $jawaban_value;
+                    
+                    AnggotaKuisioner::create($dataKuisioner);
+        
+                    $get_first_total = TotalAnggotaKuisioner::where('kuisioner_id', $x)->first();
+        
+                    if($jawaban == 'jawaban_1'){
+                        $dataTotal['total_jawaban_1'] = $get_first_total->total_jawaban1 + 1;
+                    }else if($jawaban == 'jawaban_2'){
+                        $dataTotal['total_jawaban_2'] = $get_first_total->total_jawaban_2 + 1;
+                    }else if($jawaban == 'jawaban_3'){
+                        $dataTotal['total_jawaban_3'] = $get_first_total->total_jawaban_3 + 1;
+                    }else if($jawaban == 'jawaban_4'){
+                        $dataTotal['total_jawaban_4'] = $get_first_total->total_jawaban_4 + 1;
+                    }
+        
+                    TotalAnggotaKuisioner::where('kuisioner_id', $x)->update($dataTotal);
+        
+                }
+        
+                $request->validate($validate_array);
+
                 $tanggal = date('Y-m-d');
                 $get_aktifitas = Aktifitas::where('anggota_id', $get_anggota->id)->where('tgl_kunjungan', $tanggal)->first();
                 
@@ -80,6 +139,8 @@ class HomeController extends Controller
                     $data['tujuan_id'] = $request->tujuan_id;
                     $data['tgl_kunjungan'] = $tanggal;
                     Aktifitas::create($data);
+
+                    
                 }
                 return redirect('/penggunjung')->with('success', 'Pengisian daftar penggunjung berhasil!');
                     

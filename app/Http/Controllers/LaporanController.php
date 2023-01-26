@@ -119,7 +119,7 @@ class LaporanController extends Controller
 
     public function kritik_saran()
     {
-        $get_skm = AnggotaSkm::latest();
+        $get_skm = AnggotaSkm::where('kritik_saran', '!=' , '')->latest();
         $data['skm'] = $get_skm->paginate(10)->withQueryString();
         $data['helper'] = new GlobalHelper;
         

@@ -27,6 +27,7 @@
         <li class="{{ (request()->is('anggota') || request()->is('anggota/*')) ? 'active' : '' }}"> <a class="nav-link" href="/anggota"><i class="far fa-solid fa-users"></i> <span>Anggota</span></a></li>
         <li class="{{ (request()->is('tujuan') || request()->is('tujuan/*')) ? 'active' : '' }}"> <a class="nav-link" href="/tujuan"><i class="far fa-solid fa-list"></i> <span>Tujuan</span></a></li>
         <li class="{{ (request()->is('profesi') || request()->is('profesi/*')) ? 'active' : '' }}"> <a class="nav-link" href="/profesi"><i class="far fa-solid fa-list"></i> <span>Profesi</span></a></li>
+        <li class="{{ (request()->is('kuisioner') || request()->is('kuisioner/*')) ? 'active' : '' }}"> <a class="nav-link" href="/kuisioner"><i class="far fa-solid fa-list"></i> <span>Kuisioner</span></a></li>
        
         {{-- <li> <a class="nav-link" href="/users"><i class="far fa-solid fa-user-group"></i> <span>Users</span></a></li> --}}
 
