@@ -69,7 +69,7 @@ class HomeController extends Controller
 
     public function store_penggunjung(Request $request)
     {
-        // return $request;die;
+        
         $get_anggota = Anggota::where('username', $request->username)->first();
 
         if($get_anggota){
@@ -95,7 +95,7 @@ class HomeController extends Controller
 
                 for($x=1; $x<=10; $x++) {
                     $jawaban = $request['soal_'. $x];
-                    echo $jawaban;
+                    
                     $kuis = Kuisioner::where('id', $x)->first();
         
                     $jawaban_value = [
